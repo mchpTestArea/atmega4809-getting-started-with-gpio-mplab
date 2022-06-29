@@ -29,7 +29,9 @@ pipeline {
 		stage('setup') {
 		    steps {
 				script {
-					execute("git clone https://bitbucket.microchip.com/scm/~i64056/mpae-buildpipeline-groovy-scripts.git")
+					withCredentials([usernamePassword(credentialsId: 'Bitbucket_Admin_Access_For_8bit_Examples', usernameVariable: 'USER_NAME', passwordVariable:'USER_PASS' )]){
+						execute("git clone https://${USER_NAME}:${USER_PASS}@bitbucket.microchip.com/scm/~i64056/mpae-buildpipeline-groovy-scripts.git")
+					}
 					def buildPipeline = load ('mpae-buildpipeline-groovy-scripts/xc8mplabx-buildpipeline.groovy')
 					buildPipeline.runStages()
 				}
